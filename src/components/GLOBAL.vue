@@ -2,7 +2,7 @@
 <script>
 import axios from "axios";
 var GLOBAL = {};
-GLOBAL.version = "1.0";
+GLOBAL.version = "0.8";
 GLOBAL.debug = false;
 
 //配置缓存
@@ -84,6 +84,23 @@ GLOBAL.api = {
 };
 
 //使用代理
+
+GLOBAL.api = {
+  update: "./static/pxy.php?f=update",
+  livelist: "./static/pxy.php?f=livelist",
+  openlivelist: "./static/pxy.php?f=openlivelist",
+  liveone: "./static/pxy.php?f=liveone",
+  openliveone: "./static/pxy.php?f=openliveone",
+
+  roomid: "./static/pxy.php?f=roomid",
+  roomlio: "./static/pxy.php?f=roomlio",
+  roomlia: "./static/pxy.php?f=roomlia",
+
+  login: "./static/pxy.php?f=login",
+  checkin: "./static/pxy.php?f=checkin",
+  userhome: "./static/pxy.php?f=userhome"
+}
+
 /* if (process.env.NODE_ENV == "development") {
   GLOBAL.api = GLOBAL.apiDev;
 } else if (process.env.NODE_ENV == "production") {
