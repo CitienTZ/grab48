@@ -26,7 +26,7 @@ $post=file_get_contents("php://input");
 $headers=getallheaders();
 //var_dump(getallheaders());
 $header=array();
-//if ($f=='login') array_push($header,'appinfo: {"vendor":"RowB","deviceName":"Row B 10.3","deviceId":"123","appVersion":"6.0.0","appBuild":"1","osType":"android","osVersion":"android 10.3.3","longitude":1.033,"latitude":1.033}');
+array_push($header,'appinfo: {"vendor":"RowB","deviceName":"Row B 10.3","deviceId":"123","appVersion":"6.0.0","appBuild":"1","osType":"android","osVersion":"android 10.3.3","longitude":1.033,"latitude":1.033}');
 if (isset($headers['token'])) array_push($header,'token: '.$headers['token']);
 array_push($header, 'Content-type: application/json');
 $ch = curl_init($api[$f]);
