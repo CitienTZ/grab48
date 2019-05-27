@@ -115,7 +115,7 @@ GLOBAL.headers = function(a = false) {
   }
   if (a) {
     //加入appInfo
-    this.appInfo = `{"vendor":"a","appType":"POCKET48","deviceName":"b","deviceId":"c","appVersion":"d","appBuild":"e","osType":"android","osVersion":"g"}`;
+    this.appInfo = `{"vendor":"apple","deviceName":"iPhone 8Plus","deviceId":"123","appVersion":"0.0.1","appBuild":"1","osType":"ios","osVersion":"ios 10.3.3","longitude":1.033,"latitude":1.033}`;
   }
 };
 
