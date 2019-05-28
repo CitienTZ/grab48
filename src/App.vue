@@ -31,7 +31,7 @@ export default {
     return { hideSider: false };
   },
   components: { menuNav },
-/*     methods: {
+  /*     methods: {
     openDrawer() {
       var drawer = new mdui.Drawer("#main-drawer");
       drawer.open();
@@ -39,6 +39,41 @@ export default {
   }, */
   mounted: function() {
     this.GLOBAL.mdui = mdui;
+    //更新数据
+    this.GLOBAL.getInfo = () => {
+      var req = {};
+      if (!this.GLOBAL.infoLoaded) {
+        this.$message.warning(`正在加载成员信息，第一次加载慢请耐心等待。。。`);
+      }
+      /* 请求 获取同步信息 update */
+      axios({
+        url: this.GLOBAL.api.update,
+        method: "post",
+        headers: new this.GLOBAL.headers(),
+        data: req
+      })
+        .then(response => {
+          this.GLOBAL.upInfo(response.data, req);
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    };
+    this.GLOBAL.upInfo = (res, req) => {
+      if (!this.GLOBAL.infoLoaded) {
+        this.$message.success(`成员信息加载完毕，现在可以使用了！`);
+      } else {
+        this.$message.success(`成员信息更新成功！`);
+      }
+      this.GLOBAL.info = res.content;
+      this.GLOBAL.saveInfo();
+      this.GLOBAL.infoLoaded = true;
+      console.log(res, req);
+    };
+
+    if (this.GLOBAL.config.isAutoSync) {
+      this.GLOBAL.getInfo();
+    }
   }
 };
 </script>

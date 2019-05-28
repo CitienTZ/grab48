@@ -13,6 +13,7 @@
     <h1># 关于&说明</h1>
     <cDivider/>
     <div class="c-readme">
+	  <p>第一次使用时，请等待成员信息加载完毕。</p>
       <!-- <img src="static/img/a.jpg" style="width: 80px"> -->
 	  <p>好多项目都没了啊，所以我想起一句话：“长江后浪赶前浪，世上新人换旧人。”</p>
 	  <p>你们这些啊，Excited！</p>
@@ -32,7 +33,6 @@
           <a target="_blank" href="http://github.com/kennen0/grab48">grab48</a>
         </span>
       </p>
-      <cDivider/>
     </div>
     <cDivider/>
   </div>

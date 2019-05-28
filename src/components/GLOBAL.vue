@@ -2,7 +2,7 @@
 <script>
 import axios from "axios";
 var GLOBAL = {};
-GLOBAL.version = "0.7.9";
+GLOBAL.version = "0.7.8";
 GLOBAL.debug = false;
 
 //配置缓存
@@ -83,9 +83,7 @@ GLOBAL.api = {
   userhome: "https://pocketapi.48.cn/user/api/v1/user/info/home"
 };
 
-//使用代理
-
-GLOBAL.api = {
+GLOBAL.apiProd = {
   update: "./static/pxy.php?f=update",
   livelist: "./static/pxy.php?f=livelist",
   openlivelist: "./static/pxy.php?f=openlivelist",
@@ -99,13 +97,27 @@ GLOBAL.api = {
   login: "./static/pxy.php?f=login",
   checkin: "./static/pxy.php?f=checkin",
   userhome: "./static/pxy.php?f=userhome"
-}
+};
+GLOBAL.apiDev = {
+  update: "./static/pxy.php?f=update",
+  livelist: "./static/pxy.php?f=livelist",
+  openlivelist: "./static/pxy.php?f=openlivelist",
+  liveone: "./static/pxy.php?f=liveone",
+  openliveone: "./static/pxy.php?f=openliveone",
 
-/* if (process.env.NODE_ENV == "development") {
+  roomid: "./static/pxy.php?f=roomid",
+  roomlio: "./static/pxy.php?f=roomlio",
+  roomlia: "./static/pxy.php?f=roomlia",
+
+  login: "./static/pxy.php?f=login",
+  checkin: "./static/pxy.php?f=checkin",
+  userhome: "./static/pxy.php?f=userhome"
+};
+if (process.env.NODE_ENV == "development") {
   GLOBAL.api = GLOBAL.apiDev;
 } else if (process.env.NODE_ENV == "production") {
   GLOBAL.api = GLOBAL.apiProd;
-} */
+}
 
 //headers设置
 GLOBAL.headers = function(a = false) {
@@ -123,43 +135,22 @@ GLOBAL.headers = function(a = false) {
 GLOBAL.info = {};
 GLOBAL.infoLoaded = false;
 (GLOBAL.readInfo = function() {
-  try {
-    /* 尝试获取localStorage中的info项 */
-    GLOBAL.info = JSON.parse(localStorage.getItem("info"));
-    GLOBAL.infoLoaded = true;
-  } catch (e) {
-    console.log(e);
+  if (localStorage.getItem("info")) {
+    try {
+      /* 尝试获取localStorage中的info项 */
+      GLOBAL.info = JSON.parse(localStorage.getItem("info"));
+      GLOBAL.infoLoaded = true;
+    } catch (e) {
+      console.log(e);
+      GLOBAL.info = {};
+    }
+  } else {
     GLOBAL.info = {};
   }
 })();
 GLOBAL.saveInfo = function() {
   localStorage.setItem("info", JSON.stringify(GLOBAL.info));
 };
-//更新数据
-GLOBAL.getInfo = function() {
-  var req = {};
-  /* 请求 获取同步信息 update */
-  axios({
-    url: GLOBAL.api.update,
-    method: "post",
-    headers: new GLOBAL.headers(),
-    data: req
-  })
-    .then(response => {
-      GLOBAL.upInfo(response.data, req);
-    })
-    .catch(e => {
-      console.log(e);
-    });
-};
-GLOBAL.upInfo = function(res, req) {
-  GLOBAL.info = res.content;
-  GLOBAL.saveInfo();
-  console.log(res, req);
-};
-if (GLOBAL.config.isAutoSync) {
-  GLOBAL.getInfo();
-}
 
 /**
  * 成员id转成员名
