@@ -15,7 +15,10 @@ body {
         <router-view></router-view>
       </keep-alive>
       <div class="mdui-row">
-        <p style="text-align: center">M S D F C kennen0.github.io</p>
+        <p style="text-align: center">
+          M S D F C
+          <a href="https://kennen0.github.io">kennen0.github.io</a>
+        </p>
       </div>
     </div>
   </div>

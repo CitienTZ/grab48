@@ -52,6 +52,7 @@ div.c-is-col td.c-switch-width {
             :key="row.liveId"
             :style="{'--teamcolor': GLOBAL.renderColor(row.userInfo.userId)}"
             class="c-table-live"
+            @dblclick="printInfo(row)"
           >
             <td>{{ GLOBAL.memberId2name(row.userInfo.userId) }}</td>
             <!-- 标题 -->
@@ -156,7 +157,7 @@ export default {
       if (!row.liveone.playStreamPath) {
         return;
       }
-      var dateObj = new Date(row.ctime);
+/*       var dateObj = new Date(row.ctime);
       var actualDate = `${dateObj.getFullYear()}${dateObj.getMonth() +
         1}${dateObj.getDate()}`;
       // 修复一直播链接
@@ -173,8 +174,14 @@ export default {
 
           return `${protocol}://${host}/${actualDate}`;
         }
-      );
-      return streamPath;
+      ); */
+      return row.liveone.playStreamPath;
+    },
+    printInfo(row) {
+      this.$notify.info({
+        title: "直播id",
+        message: `liveId: ${row.liveId} , roomId: ${row.liveone.roomId}`
+      });
     }
   },
   props: {
