@@ -5,7 +5,9 @@
 /* 1 设置跨域 */
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: *");
-
+if (strtolower($_SERVER['REQUEST_METHOD']) == 'options') {
+  exit;
+}
 /* 2 获取api Abbr */
 $f=$_GET['f'];
 /* $i=0;
