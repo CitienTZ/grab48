@@ -84,34 +84,34 @@ GLOBAL.api = {
 };
 
 GLOBAL.apiProd = {
-  update: "./static/pxy.php?f=update",
-  livelist: "./static/pxy.php?f=livelist",
-  openlivelist: "./static/pxy.php?f=openlivelist",
-  liveone: "./static/pxy.php?f=liveone",
-  openliveone: "./static/pxy.php?f=openliveone",
+  update: "./static/pxy_cache.php?f=update",
+  livelist: "./static/pxy_cache.php?f=livelist",
+  openlivelist: "./static/pxy_cache.php?f=openlivelist",
+  liveone: "./static/pxy_cache.php?f=liveone",
+  openliveone: "./static/pxy_cache.php?f=openliveone",
 
-  roomid: "./static/pxy.php?f=roomid",
-  roomlio: "./static/pxy.php?f=roomlio",
-  roomlia: "./static/pxy.php?f=roomlia",
+  roomid: "./static/pxy_cache.php?f=roomid",
+  roomlio: "./static/pxy_cache.php?f=roomlio",
+  roomlia: "./static/pxy_cache.php?f=roomlia",
 
-  login: "./static/pxy.php?f=login",
-  checkin: "./static/pxy.php?f=checkin",
-  userhome: "./static/pxy.php?f=userhome"
+  login: "./static/pxy_cache.php?f=login",
+  checkin: "./static/pxy_cache.php?f=checkin",
+  userhome: "./static/pxy_cache.php?f=userhome"
 };
 GLOBAL.apiDev = {
-  update: "./static/pxy.php?f=update",
-  livelist: "./static/pxy.php?f=livelist",
-  openlivelist: "./static/pxy.php?f=openlivelist",
-  liveone: "./static/pxy.php?f=liveone",
-  openliveone: "./static/pxy.php?f=openliveone",
+  update: "./static/pxy_cache.php?f=update",
+  livelist: "./static/pxy_cache.php?f=livelist",
+  openlivelist: "./static/pxy_cache.php?f=openlivelist",
+  liveone: "./static/pxy_cache.php?f=liveone",
+  openliveone: "./static/pxy_cache.php?f=openliveone",
 
-  roomid: "./static/pxy.php?f=roomid",
-  roomlio: "./static/pxy.php?f=roomlio",
-  roomlia: "./static/pxy.php?f=roomlia",
+  roomid: "./static/pxy_cache.php?f=roomid",
+  roomlio: "./static/pxy_cache.php?f=roomlio",
+  roomlia: "./static/pxy_cache.php?f=roomlia",
 
-  login: "./static/pxy.php?f=login",
-  checkin: "./static/pxy.php?f=checkin",
-  userhome: "./static/pxy.php?f=userhome"
+  login: "./static/pxy_cache.php?f=login",
+  checkin: "./static/pxy_cache.php?f=checkin",
+  userhome: "./static/pxy_cache.php?f=userhome"
 };
 if (process.env.NODE_ENV == "development") {
   GLOBAL.api = GLOBAL.apiDev;
