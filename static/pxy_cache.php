@@ -27,6 +27,23 @@ $api=[
   "checkin"=> "https://pocketapi.48.cn/user/api/v1/checkin",
   "userhome"=> "https://pocketapi.48.cn/user/api/v1/user/info/home"
 ];
+
+/* cache 机制 */
+if ($f=="update") {
+  /* 获取缓存时间 */
+  $timefile = fopen("cachetime.json", "r+");
+  $cachetime = (int) fread($timefile,filesize("cachetime.json"));
+  fclose($timefile);
+  /* 如果缓存时间<24h，直接取缓存 */
+  if ( time()-$cachetime < 24*3600 ) {
+  /* 取得cache */
+  $cachefile = fopen("update.json", "r+");
+  echo fread($cachefile,filesize("update.json"));
+  fclose($cachefile);
+  exit();
+  }
+}
+
 //var_dump($api);
 /* 4 获取post数据 */
 $post=file_get_contents("php://input");
@@ -53,5 +70,17 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
 
 /* 8 获取结果 */
 $result = curl_exec($ch);
+
+/* cache 机制 */
+if ($f=="update") {
+  /* 写入cache */
+  $cachefile = fopen("update.json", "w+");
+  fwrite($cachefile,$result);
+  fclose($cachefile);
+
+  /* 写入缓存时间 */
+  $timefile = fopen("cachetime.json", "w+");
+  fwrite($timefile,time());
+  fclose($timefile);
+}
 echo $result;
-?>

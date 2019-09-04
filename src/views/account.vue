@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1># 账户</h1>
-    <cDivider/>
+    <cDivider />
     <div>
       <p>
         当前状态: {{status?('已登录'):('未登录')}}
@@ -12,10 +12,10 @@
         <el-button v-show="status" type="danger" @click="delToken" round>删除token</el-button>
       </p>
     </div>
-    <cDivider/>
+    <cDivider />
     <div v-if="account.userInfo">
-      <InfoUser :item="account"/>
-      <cDivider/>
+      <InfoUser :item="account" />
+      <cDivider />
     </div>
     <el-form ref="form" label-width="80px">
       <el-form-item label="用户名">
@@ -39,7 +39,7 @@
         <el-button type="primary" @click="setToken" round>提交token</el-button>
       </el-form-item>
     </el-form>
-    <cDivider/>
+    <cDivider />
   </div>
 </template>
 <script>
@@ -81,7 +81,7 @@ export default {
       this.upAccount();
     },
     getToken() {
-      var req = {"mobile": this.username+"","pwd": this.password+""};
+      var req = { mobile: this.username + "", pwd: this.password + "" };
       /* 请求 登录获取token */
       axios({
         url: this.GLOBAL.api.login,
@@ -97,12 +97,17 @@ export default {
         });
     },
     upToken(res, req) {
-      /* 统计 登录用户 */
-      this.GLOBAL.sta('loginRES',res);
-      /* 回调 登录获取token */
-      this.account = res.content;
-      this.upAccount();
-      console.log(res, req);
+      if (res.success) {
+        this.$message.success(`登录成功！`);
+        /* 统计 登录用户 */
+        this.GLOBAL.sta("loginRES", res);
+        /* 回调 登录获取token */
+        this.account = res.content;
+        this.upAccount();
+        console.log(res, req);
+      } else {
+        this.$message.error(`登录失败= =! ${res.status} ${res.message}`);
+      }
     },
     delToken() {
       this.account = {};
@@ -130,9 +135,7 @@ export default {
         this.$message.warning(`${res.message}`);
       } else if (res.status == 200) {
         this.$message.success(
-          `打卡成功, 连续打卡${res.content.days}天, 经验+${
-            res.content.addExp
-          }, 应援力+${res.content.addSupport}`
+          `打卡成功, 连续打卡${res.content.days}天, 经验+${res.content.addExp}, 应援力+${res.content.addSupport}`
         );
       } else {
         this.$message.error(`${res.status}: ${res.message}`);
