@@ -2,7 +2,7 @@
 <script>
 import axios from "axios";
 var GLOBAL = {};
-GLOBAL.version = "0.6.1";
+GLOBAL.version = "0.6.2";
 GLOBAL.debug = false;
 
 //配置缓存
@@ -99,19 +99,19 @@ GLOBAL.apiProd = {
   userhome: "./static/pxy_cache.php?f=userhome"
 };
 GLOBAL.apiDev = {
-  update: "./api/update",
-  livelist: "./api/livelist",
-  openlivelist: "./api/openlivelist",
-  liveone: "./api/liveone",
-  openliveone: "./api/openliveone",
+  update: "./api/user/api/v1/client/update/group_team_star",
+  livelist: "./api/live/api/v1/live/getLiveList",
+  openlivelist: "./api/live/api/v1/live/getOpenLiveList",
+  liveone: "./api/live/api/v1/live/getLiveOne",
+  openliveone: "./api/live/api/v1/live/getOpenLiveOne",
 
-  roomid: "./api/roomid",
-  roomlio: "./api/roomlio",
-  roomlia: "./api/roomlia",
+  roomid: "./api/im/api/v1/im/room/info/type/source",
+  roomlio: "./api/im/api/v1/chatroom/msg/list/homeowner",
+  roomlia: "./api/im/api/v1/chatroom/msg/list/all",
 
-  login: "./api/login",
-  checkin: "./api/checkin",
-  userhome: "./api/userhome"
+  login: "./api/user/api/v1/login/app/mobile",
+  checkin: "./api/user/api/v1/checkin",
+  userhome: "./api/user/api/v1/user/info/home"
 };
 if (process.env.NODE_ENV == "development") {
   GLOBAL.api = GLOBAL.apiDev;
