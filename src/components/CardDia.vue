@@ -129,12 +129,12 @@ img {
         <!-- 语音信息 -->
         <div v-else-if="item.msgType=='AUDIO'">
           <a :href="GLOBAL.getPicPath(JSON.parse(item.bodys).url)">语音</a>
-          <audio :src="GLOBAL.getPicPath(JSON.parse(item.bodys).url)+`?audioTrans&type=mp3`" controls="controls">
+          <audio :src="GLOBAL.getPicPath(JSON.parse(item.bodys).url)+`?audioTrans&type=mp3`" controls="controls" />
         </div>
         <!-- 视频信息 -->
         <div v-else-if="item.msgType=='VIDEO'">
           <a :href="GLOBAL.getPicPath(JSON.parse(item.bodys).url)">视频</a>
-          <video :src="GLOBAL.getPicPath(JSON.parse(item.bodys).url)" controls="controls">
+          <video :src="GLOBAL.getPicPath(JSON.parse(item.bodys).url)" controls="controls" />
         </div>
         <!-- 表情 -->
         <div v-else-if="item.msgType=='EXPRESS'">【暂不支持的表情: {{ extInfo.emotionName }}】</div>

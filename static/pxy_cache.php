@@ -29,7 +29,7 @@ $api=[
 ];
 
 /* cache 机制 */
-if ($f=="update") {
+if ( $f=="update" &&file_exists("cachetime.json") && file_exists("update.json") ) {
   /* 获取缓存时间 */
   $timefile = fopen("cachetime.json", "r+");
   $cachetime = (int) fread($timefile,filesize("cachetime.json"));
