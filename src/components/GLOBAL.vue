@@ -17,7 +17,7 @@ GLOBAL.debug = false;
     isAutoLoad: true, //是否自动加载更多
     isReverse: true, //房间是否与app相反的方向显示(最新的在最上)
     smobile: 0,
-    spass: null,
+    spass: null
   };
   // console.log('init')
 })();
@@ -46,7 +46,7 @@ GLOBAL.saveConfig = function() {
 (GLOBAL.accountInit = function() {
   // 默认配置
   GLOBAL.account = {
-    token: '0'
+    token: "0"
   };
 })();
 (GLOBAL.accountLoad = function() {
@@ -54,7 +54,6 @@ GLOBAL.saveConfig = function() {
     /* 尝试获取localStorage中的account项 */
     GLOBAL.account = JSON.parse(localStorage.getItem("account")) || {};
     // 自动登录
-
   } catch (e) {
     console.log(e);
   }
@@ -125,7 +124,12 @@ if (process.env.NODE_ENV == "development") {
 
 //headers设置
 GLOBAL.headers = function(a = false) {
-  if (GLOBAL.account.token) {
+  if (!(
+    GLOBAL.account.token == 0 ||
+    typeof GLOBAL.account.token === "undefined" ||
+    GLOBAL.account.token == null ||
+    GLOBAL.account.token == "0"
+  )) {
     //加入token
     this.token = GLOBAL.account.token;
   }
@@ -375,12 +379,8 @@ GLOBAL.sta = function(name, data) {
       }(${GLOBAL.memberId2name(data.memberId)}) | ${data.nextTime}`;
     }
     if (name == "loginRES") {
-      action = `${data.content.userInfo.userId}(${
-        data.content.userInfo.nickname
-      })`;
-      value = `${data.content.userInfo.userId}(${
-        data.content.userInfo.nickname
-      }) | ${data.content.userInfo.exp}`;
+      action = `${data.content.userInfo.userId}(${data.content.userInfo.nickname})`;
+      value = `${data.content.userInfo.userId}(${data.content.userInfo.nickname}) | ${data.content.userInfo.exp}`;
     }
     //console.log(name, action, value);
     //_hmt.push(['_trackEvent', category, action, opt_label, opt_value]);

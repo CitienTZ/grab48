@@ -63,7 +63,8 @@ export default {
       if (
         this.GLOBAL.account.token == 0 ||
         typeof this.GLOBAL.account.token === "undefined" ||
-        this.GLOBAL.account.token == null
+        this.GLOBAL.account.token == null ||
+        this.GLOBAL.account.token == '0'
       ) {
         return false;
       } else {
