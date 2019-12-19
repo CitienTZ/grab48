@@ -9,14 +9,14 @@ body {
 
 <template>
   <div>
-    <menuNav/>
+    <menuNav />
     <div class="mdui-container">
       <keep-alive>
         <router-view></router-view>
       </keep-alive>
       <div class="mdui-row">
         <p style="text-align: center">
-          M S D F C
+          msdfc.
           <a href="https://kennen0.github.io">kennen0.github.io</a>
         </p>
       </div>
@@ -73,9 +73,41 @@ export default {
       this.GLOBAL.infoLoaded = true;
       console.log(res, req);
     };
-
+    this.GLOBAL.getToken = (username, password) => {
+      var req = { mobile: username + "", pwd: password + "" };
+      axios({
+        url: this.GLOBAL.api.login,
+        method: "post",
+        headers: new this.GLOBAL.headers(true),
+        data: req
+      })
+        .then(response => {
+          this.GLOBAL.upToken(response.data, req);
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    };
+    this.GLOBAL.upToken = (res, req) => {
+      if (res.success) {
+        this.$message.success(`登录成功！`);
+        /* 统计 登录用户 */
+        this.GLOBAL.sta("loginRES", res);
+        /* 回调 登录获取token */
+        this.$set(this.GLOBAL, 'account', res.content);
+        // this.GLOBAL.account = res.content;
+        this.GLOBAL.accountSave();
+        console.log(res, req);
+      } else {
+        this.$message.error(`登录失败= =! ${res.status} ${res.message}`);
+      }
+    };
     if (this.GLOBAL.config.isAutoSync) {
       this.GLOBAL.getInfo();
+      if (this.GLOBAL.config.spass) {
+        // 使用保存的密码获取token
+        this.GLOBAL.getToken(this.GLOBAL.config.smobile, this.GLOBAL.config.spass);
+      }
     }
   }
 };

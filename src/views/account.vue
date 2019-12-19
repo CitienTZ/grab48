@@ -6,15 +6,15 @@
       <p>
         当前状态: {{status?('已登录'):('未登录')}}
         <el-button v-show="status" type="success" @click="getPunch" round>打卡签到</el-button>
-        <el-tooltip :content="account.token" placement="bottom" effect="light">
+        <el-tooltip :content="GLOBAL.account.token" placement="bottom" effect="light">
           <el-button v-show="status" type="primary" round>显示token</el-button>
         </el-tooltip>
-        <el-button v-show="status" type="danger" @click="delToken" round>删除token</el-button>
+        <el-button v-show="status" type="danger" @click="delToken" round>删除token及保存的密码</el-button>
       </p>
     </div>
     <cDivider />
-    <div v-if="account.userInfo">
-      <InfoUser :item="account" />
+    <div v-if="GLOBAL.account.userInfo">
+      <InfoUser :item="GLOBAL.account" />
       <cDivider />
     </div>
     <el-form ref="form" label-width="80px">
@@ -30,6 +30,7 @@
         ></el-input>
       </el-form-item>
       <el-form-item>
+        <el-checkbox v-model="savep">保存密码</el-checkbox>
         <el-button type="primary" @click="getToken" round>登录</el-button>
       </el-form-item>
       <el-form-item label="手动设置">
@@ -53,15 +54,16 @@ export default {
       username: null,
       password: null,
       token: null,
-      account: this.GLOBAL.account
+      savep: false, // 保存密码
+      sharedState: { GLOBAL: this.GLOBAL }
     };
   },
   computed: {
     status() {
       if (
-        this.account.token == 0 ||
-        typeof this.account.token === "undefined" ||
-        this.account.token == null
+        this.GLOBAL.account.token == 0 ||
+        typeof this.GLOBAL.account.token === "undefined" ||
+        this.GLOBAL.account.token == null
       ) {
         return false;
       } else {
@@ -71,46 +73,31 @@ export default {
   },
   methods: {
     upAccount() {
-      this.GLOBAL.account = this.account;
       this.GLOBAL.accountSave();
     },
     setToken() {
-      this.account = {
+      this.GLOBAL.account = {
         token: this.token
       };
       this.upAccount();
     },
     getToken() {
-      var req = { mobile: this.username + "", pwd: this.password + "" };
-      /* 请求 登录获取token */
-      axios({
-        url: this.GLOBAL.api.login,
-        method: "post",
-        headers: new this.GLOBAL.headers(true),
-        data: req
-      })
-        .then(response => {
-          this.upToken(response.data, req);
-        })
-        .catch(e => {
-          console.log(e);
-        });
-    },
-    upToken(res, req) {
-      if (res.success) {
-        this.$message.success(`登录成功！`);
-        /* 统计 登录用户 */
-        this.GLOBAL.sta("loginRES", res);
-        /* 回调 登录获取token */
-        this.account = res.content;
-        this.upAccount();
-        console.log(res, req);
+      if (this.savep) {
+        // 保存密码
+        this.GLOBAL.config.smobile = this.username;
+        this.GLOBAL.config.spass = this.password;
       } else {
-        this.$message.error(`登录失败= =! ${res.status} ${res.message}`);
+        this.GLOBAL.config.smobile = 0;
+        this.GLOBAL.config.spass = null;
       }
+      this.GLOBAL.saveConfig();
+      this.GLOBAL.getToken(this.username, this.password);
     },
     delToken() {
-      this.account = {};
+      this.$set(this.GLOBAL, "account", { toekn: "0" });
+      this.GLOBAL.config.smobile = 0;
+      this.GLOBAL.config.spass = null;
+      this.GLOBAL.saveConfig();
       this.upAccount();
     },
     getPunch() {

@@ -38,7 +38,9 @@ img {
   background-color: rgba(255, 255, 255, 0.9);
   border-radius: 5px;
 }
-.c-card-content img,.c-card-content video,.c-card-content audio {
+.c-card-content img,
+.c-card-content video,
+.c-card-content audio {
   max-width: 10rem;
 }
 .c-card-reply {
@@ -50,14 +52,21 @@ img {
   font-size: 0.6rem;
   color: #3f3f3f;
 }
+
+.el-message-box__message p,
+.el-notification__content p {
+  word-break: break-all;
+}
 </style>
 
 <template>
-  <div class="c-card-dia">
+  <div @dblclick="showInfo" class="c-card-dia">
     <div class="c-card-avatar">
-      <div class="c-card-avatar-img">
-        <img :src="GLOBAL.getPicPath(extInfo.user.avatar)">
-      </div>
+      <a :href="GLOBAL.getPicPath(extInfo.user.avatar)" target="_blank">
+        <div :style="styleImg" class="c-card-avatar-img">
+          <!-- <img :src="GLOBAL.getPicPath(extInfo.user.avatar)"> -->
+        </div>
+      </a>
     </div>
     <div class="c-card-main">
       <div class="c-card-header">
@@ -86,7 +95,7 @@ img {
             <img
               style="max-width:30px; max-height:30px"
               :src="GLOBAL.getPicPath(extInfo.liveCover)"
-            >
+            />
             【视频直播】{{extInfo.liveTitle}}
             <a
               :href="GLOBAL.memberLiveUrl+extInfo.liveId"
@@ -98,7 +107,7 @@ img {
             <img
               style="max-width:30px; max-height:30px"
               :src="GLOBAL.getPicPath(extInfo.referencecoverImage)"
-            >【电台直播】
+            />【电台直播】
             <a
               :href="GLOBAL.memberLiveUrl+extInfo.referenceObjectId"
               target="_blank"
@@ -117,19 +126,22 @@ img {
             <img
               style="max-width: 1rem;"
               :src="GLOBAL.getPicPath(extInfo.giftInfo.picPath)"
-            >
+            />
           </div>
           <!-- 其他信息 -->
           <div v-else>未知文本: {{ JSON.stringify(item) }}</div>
         </div>
         <!-- 图片信息 -->
         <div v-else-if="item.msgType=='IMAGE'">
-          <img :src="GLOBAL.getPicPath(JSON.parse(item.bodys).url)">
+          <img :src="GLOBAL.getPicPath(JSON.parse(item.bodys).url)" />
         </div>
         <!-- 语音信息 -->
         <div v-else-if="item.msgType=='AUDIO'">
           <a :href="GLOBAL.getPicPath(JSON.parse(item.bodys).url)">语音</a>
-          <audio :src="GLOBAL.getPicPath(JSON.parse(item.bodys).url)+`?audioTrans&type=mp3`" controls="controls" />
+          <audio
+            :src="GLOBAL.getPicPath(JSON.parse(item.bodys).url)+`?audioTrans&type=mp3`"
+            controls="controls"
+          />
         </div>
         <!-- 视频信息 -->
         <div v-else-if="item.msgType=='VIDEO'">
@@ -150,8 +162,7 @@ import axios from "axios";
 export default {
   name: "CardDia",
   data() {
-    return {
-    };
+    return {};
   },
   props: {
     item: {
@@ -164,10 +175,33 @@ export default {
       type: Number
     }
   },
-  methods: {  },
+  methods: {
+    showInfo() {
+      var mes = JSON.stringify(this.mes);
+      this.$notify.info({
+        title: "消息详情",
+        dangerouslyUseHTMLString: true,
+        message: mes
+      });
+    }
+  },
   computed: {
     extInfo() {
       return JSON.parse(this.item.extInfo);
+    },
+    mes() {
+      var mes = JSON.parse(JSON.stringify(this.item));
+      mes.extInfo = this.extInfo;
+      return mes;
+    },
+    styleImg() {
+      return {
+        background: `url("${this.GLOBAL.getPicPath(
+          this.extInfo.user.avatar
+        )}")`,
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat"
+      };
     }
   }
 };

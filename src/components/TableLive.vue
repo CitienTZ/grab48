@@ -27,6 +27,9 @@ tr.c-table-live td a {
 div.c-is-col td.c-switch-width {
   max-width: 10rem;
 }
+.el-message-box__message p, .el-notification__content p {
+  word-break: break-all;
+}
 </style>
 
 
@@ -178,10 +181,15 @@ export default {
       return row.liveone.playStreamPath;
     },
     printInfo(row) {
-      this.$notify.info({
-        title: "直播id",
-        message: `liveId: ${row.liveId} , roomId: ${row.liveone.roomId}`
-      });
+      var con = JSON.stringify(row);
+      this.$alert(con, '直播信息', {
+          confirmButtonText: '确定'
+        });
+      console.debug('select_info',JSON.parse(con));
+      /* this.$notify.info({
+        title: "直播信息",
+        message: `${JSON.stringify(row)}`
+      }); */
     }
   },
   props: {

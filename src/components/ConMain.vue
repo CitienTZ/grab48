@@ -14,11 +14,10 @@
 <template>
   <div>
     <div class="c-room-info">
-      <p>{{ roominfo.ownerName }} #{{ roominfo.roomName }}</p>
+      <p>{{ roominfo.ownerName }} #{{ roominfo.roomName }} <a target="_blank" :href="GLOBAL.getPicPath(roominfo.bgImg)">[背景图]</a></p>
       <small>{{ roominfo.roomTopic }}</small>
     </div>
     <div
-      @dblclick="notBg(roominfo)"
       class="c-room-main"
       :style="{background:`url('${roominfo.bgImg?GLOBAL.getPicPath(roominfo.bgImg):''}')`}"
     >
@@ -52,15 +51,15 @@ export default {
     }
   },
   methods: {
-    notBg(roominfo) {
-      /* 背景图片链接提示 */
+    /* notBg(roominfo) {
+      // 背景图片链接提示
       var url = this.GLOBAL.getPicPath(roominfo.bgImg);
       this.$notify.info({
         title: "背景图地址",
         dangerouslyUseHTMLString: true,
         message: `<a target="_blank" href="${url}">${url}</a>`
       });
-    }
+    } */
   },
   components: { CardDia }
 };

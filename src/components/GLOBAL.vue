@@ -2,7 +2,7 @@
 <script>
 import axios from "axios";
 var GLOBAL = {};
-GLOBAL.version = "0.6.2";
+GLOBAL.version = "0.5.0";
 GLOBAL.debug = false;
 
 //配置缓存
@@ -15,7 +15,9 @@ GLOBAL.debug = false;
     version: GLOBAL.version, //版本号
     isShowTip: false, //是否查看过提示
     isAutoLoad: true, //是否自动加载更多
-    isReverse: true //房间是否与app相反的方向显示(最新的在最上)
+    isReverse: true, //房间是否与app相反的方向显示(最新的在最上)
+    smobile: 0,
+    spass: null,
   };
   // console.log('init')
 })();
@@ -44,13 +46,15 @@ GLOBAL.saveConfig = function() {
 (GLOBAL.accountInit = function() {
   // 默认配置
   GLOBAL.account = {
-    token: 0
+    token: '0'
   };
 })();
 (GLOBAL.accountLoad = function() {
   try {
     /* 尝试获取localStorage中的account项 */
     GLOBAL.account = JSON.parse(localStorage.getItem("account")) || {};
+    // 自动登录
+
   } catch (e) {
     console.log(e);
   }
